@@ -28,6 +28,6 @@ echo "src-git passwall https://github.com" >> feeds.conf.default
 echo "src-git openclash https://github.com" >> feeds.conf.default
 
 # 添加 AdGuardHome 源
-git clone --depth=1 https://github.com package/luci-app-adguardhome
+echo "src-git kenzo https://github.com" >> feeds.conf.default
 
 
