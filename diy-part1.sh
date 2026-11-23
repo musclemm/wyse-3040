@@ -16,3 +16,16 @@
 # Add a feed source
 echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+
+# 开启 Lean 自带的 SSR Plus+ 源
+sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+
+# 添加 PassWall 依赖与主程序源
+echo "src-git passwall_packages https://github.com" >> feeds.conf.default
+echo "src-git passwall https://github.com" >> feeds.conf.default
+
+# 添加 OpenClash 源
+echo "src-git openclash https://github.com" >> feeds.conf.default
+
+# 添加 AdGuardHome 源
+echo "src-git kenzo https://github.com" >> feeds.conf.default
