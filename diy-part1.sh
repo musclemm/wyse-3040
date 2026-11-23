@@ -14,7 +14,7 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
 # 添加 PassWall 依赖与主程序源
@@ -22,9 +22,9 @@ echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.co
 #echo "src-git passwall https://github.com" >> feeds.conf.default
 
 # 添加 OpenClash 源
-echo "src-git openclash https://github.com" >> feeds.conf.default
+#echo "src-git openclash https://github.com" >> feeds.conf.default
 
 # 添加 AdGuardHome 源
-echo "src-git kenzo https://github.com" >> feeds.conf.default
+#echo "src-git kenzo https://github.com" >> feeds.conf.default
 
 
