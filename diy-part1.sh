@@ -17,8 +17,5 @@
 echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 
-
-# 添加 AdGuardHome 源
-#echo "src-git kenzo https://github.com" >> feeds.conf.default
-
-
+# 3. 添加 OpenClash 源
+echo "src-git openclash https://github.com/vernesong/openclash" >> feeds.conf.default
