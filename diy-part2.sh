@@ -11,7 +11,7 @@
 #
 
 # 1. 修改默认后台管理 IP（按需取消注释）
-#sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.1.5/g' package/base-files/files/bin/config_generate
 
 # 2. 将 Argon 设为默认主题（兼容新旧 OpenWrt 分支）
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
