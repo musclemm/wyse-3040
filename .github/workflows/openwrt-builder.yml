@@ -89,7 +89,9 @@ jobs:
 
     - name: Optimize x86 GRUB timeout and console for Wyse 3040
       run: |
-          cd lede # 若路径非 openwrt，请改为实际目录
+          if [ -d "openwrt" ]; then
+            cd openwrt
+          fi
 
           # 1. 若 .config 中存在 CONFIG_GRUB_TIMEOUT，将其设为 "1"
           if [ -f .config ] && grep -q "CONFIG_GRUB_TIMEOUT" .config; then
@@ -162,9 +164,9 @@ jobs:
       run: |
         echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
-        [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
-        if [ "${UPLOAD_GOFILE}" = "true" ] && [ -n "${{ steps.gofile.outputs.url }}" ]; then
-        echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
+        [ ${UPLOAD_GOFILE} = true && $[[ steps.gofile.outputs.url ]] ] && echo "🔗 [GoFile]($[[ steps.gofile.outputs.url ]])" >> release.txt
+        if [ "${UPLOAD_GOFILE}" = "true" ] && [ -n "$[[ steps.gofile.outputs.url ]]" ]; then
+        echo "🔗 [GoFile]($[[ steps.gofile.outputs.url ]])" >> release.txt
         fi
         echo "status=success" >> $GITHUB_OUTPUT
 
