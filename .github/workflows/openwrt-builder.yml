@@ -145,7 +145,13 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
+        target_dir=$(ls -d /workdir/openwrt/bin/targets/*/* openwrt/bin/targets/*/* 2>/dev/null | head -n 1)
+        if [ -z "$target_dir" ] || [ ! -d "$target_dir" ]; then
+            echo "Target output directory not found under bin/targets/*/*"
+            ls -la /workdir/openwrt/bin/targets/ 2>/dev/null || true
+            exit 1
+        fi
+        cd "$target_dir"
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
