@@ -29,19 +29,3 @@ if [ -n "$CLASH_META_URL" ]; then
 else
     echo "Warning: Failed to fetch Mihomo download URL!"
 fi
-
-# 4. 预置 AdGuardHome x86_64 核心二进制文件（直接放到 /usr/bin/AdGuardHome）
-mkdir -p files/usr/bin
-AGH_URL=$(curl -sL https://api.github.com/repos/AdguardTeam/AdGuardHome/releases/latest | grep -oE "https://[^\"]*AdGuardHome_linux_amd64\.tar\.gz" | head -n 1)
-if [ -n "$AGH_URL" ]; then
-    echo "Downloading AdGuardHome core from: $AGH_URL"
-    curl -fsSL "$AGH_URL" -o /tmp/AdGuardHome.tar.gz && \
-    tar -zxf /tmp/AdGuardHome.tar.gz -C /tmp/ && \
-    mv /tmp/AdGuardHome/AdGuardHome files/usr/bin/AdGuardHome && \
-    chmod +x files/usr/bin/AdGuardHome && \
-    rm -rf /tmp/AdGuardHome /tmp/AdGuardHome.tar.gz
-else
-    echo "Warning: Failed to fetch AdGuardHome download URL!"
-fi
-chmod +x files/usr/bin/AdGuardHome/AdGuardHome
-rm -rf /tmp/AdGuardHome /tmp/AdGuardHome.tar.gz
