@@ -97,10 +97,8 @@ jobs:
             sed -i 's/^CONFIG_GRUB_TIMEOUT=.*/CONFIG_GRUB_TIMEOUT="1"/' .config
           fi
           # 2. 去掉 x86 目标目录与镜像生成脚本中的 ttyS0,115200n8，并缩短默认 timeout
-          grep -rnIl "console=ttyS0,115200n8" target/linux/x86/ 2>/dev/null \
-            | xargs -r sed -i -E 's/[[:space:]]*console=ttyS0,115200n8//g'
-          grep -rnIl 'timeout' target/linux/x86/ 2>/dev/null \
-            | xargs -r sed -i 's/set timeout="[0-9]*"/set timeout="1"/g; s/GRUB_TIMEOUT="[0-9]*"/GRUB_TIMEOUT="1"/g'
+          grep -rnIl "console=ttyS0,115200n8" target/linux/x86/ 2>/dev/null | xargs -r sed -i -E 's/[[:space:]]*console=ttyS0,115200n8//g'
+          grep -rnIl 'timeout' target/linux/x86/ 2>/dev/null | xargs -r sed -i 's/set timeout="[0-9]*"/set timeout="1"/g; s/GRUB_TIMEOUT="[0-9]*"/GRUB_TIMEOUT="1"/g'
           # 3. 核对结果（确保无残留 ttyS0,115200n8）
           echo "=== Remaining ttyS0,115200n8 in target/linux/x86 ==="
           grep -rn "console=ttyS0,115200n8" target/linux/x86/ || echo "ttyS0 removed cleanly"
