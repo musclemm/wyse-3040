@@ -83,7 +83,7 @@ jobs:
       run: |
         cd openwrt
         make defconfig
-        make download -j8
+        make download -j8 || make download -j1 V=s
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
@@ -92,18 +92,15 @@ jobs:
           if [ -d "openwrt" ]; then
             cd openwrt
           fi
-
           # 1. 若 .config 中存在 CONFIG_GRUB_TIMEOUT，将其设为 "1"
           if [ -f .config ] && grep -q "CONFIG_GRUB_TIMEOUT" .config; then
             sed -i 's/^CONFIG_GRUB_TIMEOUT=.*/CONFIG_GRUB_TIMEOUT="1"/' .config
           fi
           # 2. 去掉 x86 目标目录与镜像生成脚本中的 ttyS0,115200n8，并缩短默认 timeout
-           grep -rnIl "console=ttyS0,115200n8" target/linux/x86/ 2>/dev/null \
+          grep -rnIl "console=ttyS0,115200n8" target/linux/x86/ 2>/dev/null \
             | xargs -r sed -i -E 's/[[:space:]]*console=ttyS0,115200n8//g'
-
           grep -rnIl 'timeout' target/linux/x86/ 2>/dev/null \
             | xargs -r sed -i 's/set timeout="[0-9]*"/set timeout="1"/g; s/GRUB_TIMEOUT="[0-9]*"/GRUB_TIMEOUT="1"/g'
-
           # 3. 核对结果（确保无残留 ttyS0,115200n8）
           echo "=== Remaining ttyS0,115200n8 in target/linux/x86 ==="
           grep -rn "console=ttyS0,115200n8" target/linux/x86/ || echo "ttyS0 removed cleanly"
@@ -166,13 +163,9 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
-        touch release.txt
-        [ ${UPLOAD_GOFILE} = true && $[[ steps.gofile.outputs.url ]] ] && echo "🔗 [GoFile]($[[ steps.gofile.outputs.url ]])" >> release.txt
-        if [ "${UPLOAD_GOFILE}" = "true" ] && [ -n "$[[ steps.gofile.outputs.url ]]" ]; then
-        echo "🔗 [GoFile]($[[ steps.gofile.outputs.url ]])" >> release.txt
-        fi
-        echo "status=success" >> $GITHUB_OUTPUT
+          echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+          : > release.txt
+          echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
       uses: softprops/action-gh-release@master
